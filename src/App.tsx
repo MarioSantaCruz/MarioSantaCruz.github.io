@@ -1,40 +1,37 @@
 import React, {useState, useEffect} from "react";
-import {
-  Main,
-  Timeline,
-  Expertise,
-  Project,
-  Contact,
-  Navigation,
-  Footer,
+import { 
+  Main, 
+  Expertise, 
+  Certificates, 
+  Project, 
+  Contact, 
+  Navigation, 
+  Footer, 
+  FadeIn 
 } from "./components";
-import FadeIn from './components/FadeIn';
-import './index.scss';
+// @ts-ignore
+import './index.scss'; // Corregido: antes decía ./assets/styles/App.scss
 
 function App() {
     const [mode, setMode] = useState<string>('dark');
 
     const handleModeChange = () => {
-        if (mode === 'dark') {
-            setMode('light');
-        } else {
-            setMode('dark');
-        }
+        setMode(mode === 'dark' ? 'light' : 'dark');
     }
 
     useEffect(() => {
         window.scrollTo({top: 0, left: 0, behavior: 'smooth'});
-      }, []);
+    }, []);
 
     return (
     <div className={`main-container ${mode === 'dark' ? 'dark-mode' : 'light-mode'}`}>
         <Navigation parentToChild={{mode}} modeChange={handleModeChange}/>
-        <FadeIn transitionDuration={700}>
-            <Main/>
-            <Expertise/>
-            <Timeline/>
-            <Project/>
-            <Contact/>
+        <FadeIn>
+            <Main />
+            <Expertise />
+            <Certificates />
+            <Project />
+            <Contact />
         </FadeIn>
         <Footer />
     </div>

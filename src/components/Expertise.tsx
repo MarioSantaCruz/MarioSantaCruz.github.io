@@ -1,87 +1,109 @@
-import React from "react";
-import '@fortawesome/free-regular-svg-icons'
+import React, { useRef, useEffect } from "react";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faReact, faDocker, faPython } from '@fortawesome/free-brands-svg-icons';
+import { 
+    faServer, 
+    faGamepad, 
+    faUsersGear,
+    faChevronLeft, 
+    faChevronRight 
+} from '@fortawesome/free-solid-svg-icons'; 
+import { faReact, faPython } from '@fortawesome/free-brands-svg-icons';
 import Chip from '@mui/material/Chip';
-import '../assets/styles/Expertise.scss';
+// @ts-ignore
+import '../assets/styles/Expertise.scss'; 
 
-const labelsFirst = [
-    "React",
-    "TypeScript",
-    "JavaScript",
-    "HTML5",
-    "CSS3",
-    "SASS",
-    "Flask",
-    "Python",
-    "SQL",
-    "PostgreSQL",
-    "Postman"
+const skills = [
+    {
+        title: "Desarrollo Frontend & UX",
+        icon: faReact,
+        description: "Interfaces modernas con React y TypeScript. Enfoque en accesibilidad, comunicación digital y fundamentos de UX.",
+        labels: ["React", "TypeScript", "HTML5", "CSS3", "SASS", "UX Design"]
+    },
+    {
+        title: "Visión Computacional",
+        icon: faPython,
+        description: "Sistemas de seguimiento de manos en tiempo real con OpenCV y MediaPipe.",
+        labels: ["Python", "OpenCV", "MediaPipe", "AI Basics"]
+    },
+    {
+        title: "Infraestructura & ERP",
+        icon: faServer,
+        description: "Infraestructura como código con Terraform e integración de sistemas empresariales SAP ERP.",
+        labels: ["Terraform", "SAP ERP", "Git", "GitHub"]
+    },
+    {
+        title: "Desarrollo de Videojuegos",
+        icon: faGamepad,
+        description: "Diseño de lógicas de juego 2D en Godot, análisis de físicas y mecánicas.",
+        labels: ["Godot", "GDScript", "Game Design"]
+    },
+    {
+        title: "Gestión & Agilidad",
+        icon: faUsersGear,
+        description: "Gestión de proyectos bajo metodologías Ágiles y Lean, priorizando resultados y marca personal.",
+        labels: ["Agile", "Lean", "Liderazgo", "Soft Skills"]
+    }
 ];
 
-const labelsSecond = [
-    "Git",
-    "GitHub Actions",
-    "Docker",
-    "AWS",
-    "Azure",
-    "Linux",
-    "Snowflake",
-    "Pandas",
-    "Selenium",
-];
-
-const labelsThird = [
-    "OpenAI",
-    "Groq",
-    "LangChain",
-    "Qdrant",
-    "Hugging Face",
-    "LlamaIndex",
-    "Streamlit",
-];
+const displaySkills = [...skills, ...skills, ...skills];
 
 function Expertise() {
+    const sliderRef = useRef<HTMLDivElement>(null);
+
+    useEffect(() => {
+        if (sliderRef.current) {
+            const singleSetWidth = sliderRef.current.scrollWidth / 3;
+            sliderRef.current.scrollLeft = singleSetWidth;
+        }
+    }, []);
+
+    const handleScroll = () => {
+        if (!sliderRef.current) return;
+        const { scrollLeft, scrollWidth } = sliderRef.current;
+        const singleSetWidth = scrollWidth / 3;
+
+        if (scrollLeft < singleSetWidth * 0.5) {
+            sliderRef.current.scrollLeft = scrollLeft + singleSetWidth;
+        } else if (scrollLeft > singleSetWidth * 1.5) {
+            sliderRef.current.scrollLeft = scrollLeft - singleSetWidth;
+        }
+    };
+
+    const scrollSlider = (direction: 'left' | 'right') => {
+        if (sliderRef.current) {
+            const scrollAmount = 310;
+            sliderRef.current.scrollBy({ 
+                left: direction === 'left' ? -scrollAmount : scrollAmount, 
+                behavior: 'smooth' 
+            });
+        }
+    };
+
     return (
-    <div className="container" id="expertise">
+    <div className="expertise-wrapper" id="expertise">
         <div className="skills-container">
-            <h1>Expertise</h1>
-            <div className="skills-grid">
-                <div className="skill">
-                    <FontAwesomeIcon icon={faReact} size="3x"/>
-                    <h3>Full Stack Web Development</h3>
-                    <p>I have built a diverse array of web applications from scratch using modern technologies such as React and Flask. I have a strong proficiency in the SDLC process and frontend + backend development.</p>
-                    <div className="flex-chips">
-                        <span className="chip-title">Tech stack:</span>
-                        {labelsFirst.map((label, index) => (
-                            <Chip key={index} className='chip' label={label} />
-                        ))}
-                    </div>
+            <h1>Habilidades y Conocimientos</h1>
+            <div className="slider-outer-container">
+                <button className="slider-btn left" onClick={() => scrollSlider('left')}>
+                    <FontAwesomeIcon icon={faChevronLeft} />
+                </button>
+                <div className="skills-slider" ref={sliderRef} onScroll={handleScroll}>
+                    {displaySkills.map((skill, index) => (
+                        <div key={index} className="skill-card">
+                            <FontAwesomeIcon icon={skill.icon} size="3x"/>
+                            <h3>{skill.title}</h3>
+                            <p>{skill.description}</p>
+                            <div className="flex-chips">
+                                {skill.labels.map((label, lIndex) => (
+                                    <Chip key={lIndex} className='chip' label={label} />
+                                ))}
+                            </div>
+                        </div>
+                    ))}
                 </div>
-
-                <div className="skill">
-                    <FontAwesomeIcon icon={faDocker} size="3x"/>
-                    <h3>DevOps & Automation</h3>
-                    <p>Once the application is built, I help clients set up DevOps testing, CI/CD pipelines, and deployment automation to support the successful Go-Live.</p>
-                    <div className="flex-chips">
-                        <span className="chip-title">Tech stack:</span>
-                        {labelsSecond.map((label, index) => (
-                            <Chip key={index} className='chip' label={label} />
-                        ))}
-                    </div>
-                </div>
-
-                <div className="skill">
-                    <FontAwesomeIcon icon={faPython} size="3x"/>
-                    <h3>GenAI & LLM</h3>
-                    <p>Stay relevant in the market by leveraging the latest AI models in your projects. I have professional experience building enterprise grade GenAI-enabled solutions to empower intelligent decision making.</p>
-                    <div className="flex-chips">
-                        <span className="chip-title">Tech stack:</span>
-                        {labelsThird.map((label, index) => (
-                            <Chip key={index} className='chip' label={label} />
-                        ))}
-                    </div>
-                </div>
+                <button className="slider-btn right" onClick={() => scrollSlider('right')}>
+                    <FontAwesomeIcon icon={faChevronRight} />
+                </button>
             </div>
         </div>
     </div>
