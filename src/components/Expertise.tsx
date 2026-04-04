@@ -1,112 +1,108 @@
 import React, { useRef, useEffect } from "react";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { 
-    faServer, 
-    faGamepad, 
-    faUsersGear,
-    faChevronLeft, 
-    faChevronRight 
-} from '@fortawesome/free-solid-svg-icons'; 
 import { faReact, faPython } from '@fortawesome/free-brands-svg-icons';
+import { faServer, faUsers, faGamepad, faChevronLeft, faChevronRight } from '@fortawesome/free-solid-svg-icons';
 import Chip from '@mui/material/Chip';
 // @ts-ignore
-import '../assets/styles/Expertise.scss'; 
+import '../assets/styles/Expertise.scss';
 
 const skills = [
     {
         title: "Desarrollo Frontend & UX",
         icon: faReact,
-        description: "Interfaces modernas con React y TypeScript. Enfoque en accesibilidad, comunicación digital y fundamentos de UX.",
-        labels: ["React", "TypeScript", "HTML5", "CSS3", "SASS", "UX Design"]
+        description: "Construcción de interfaces modernas y responsivas utilizando React.js y TypeScript. Enfoque en la experiencia de usuario y diseño limpio.",
+        labels: ["React", "TypeScript", "HTML5", "CSS3", "SASS"]
     },
     {
         title: "Visión Computacional",
         icon: faPython,
-        description: "Sistemas de seguimiento de manos en tiempo real con OpenCV y MediaPipe.",
-        labels: ["Python", "OpenCV", "MediaPipe", "AI Basics"]
+        description: "Implementación de modelos de detección y seguimiento en tiempo real con Python. Experiencia en procesamiento de imágenes y video.",
+        labels: ["Python", "OpenCV", "MediaPipe", "NumPy"]
     },
     {
         title: "Infraestructura & ERP",
         icon: faServer,
-        description: "Infraestructura como código con Terraform e integración de sistemas empresariales SAP ERP.",
-        labels: ["Terraform", "SAP ERP", "Git", "GitHub"]
+        description: "Configuración de servicios en la nube y despliegue automatizado. Conocimientos en integración de sistemas empresariales y flujos de datos.",
+        labels: ["Terraform", "SAP ERP", "AWS", "Docker"]
     },
     {
         title: "Desarrollo de Videojuegos",
         icon: faGamepad,
-        description: "Diseño de lógicas de juego 2D en Godot, análisis de físicas y mecánicas.",
-        labels: ["Godot", "GDScript", "Game Design"]
+        description: "Diseño y programación de mecánicas 2D. Aplicación de lógicas físicas y sistemas de control en motores de videojuegos.",
+        labels: ["Godot", "GDScript", "Game Design", "Physics"]
     },
     {
         title: "Gestión & Agilidad",
-        icon: faUsersGear,
-        description: "Gestión de proyectos bajo metodologías Ágiles y Lean, priorizando resultados y marca personal.",
-        labels: ["Agile", "Lean", "Liderazgo", "Soft Skills"]
+        icon: faUsers,
+        description: "Coordinación de equipos y proyectos bajo marcos de trabajo ágiles. Optimización de procesos y comunicación efectiva en entornos digitales.",
+        labels: ["Agile", "Scrum", "Lean", "Project Management"]
     }
 ];
 
-const displaySkills = [...skills, ...skills, ...skills];
+const infiniteSkills = [...skills, ...skills, ...skills];
 
 function Expertise() {
-    const sliderRef = useRef<HTMLDivElement>(null);
+    const scrollRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
-        if (sliderRef.current) {
-            const singleSetWidth = sliderRef.current.scrollWidth / 3;
-            sliderRef.current.scrollLeft = singleSetWidth;
+        if (scrollRef.current) {
+            const setWidth = scrollRef.current.scrollWidth / 3;
+            scrollRef.current.scrollLeft = setWidth;
         }
     }, []);
 
     const handleScroll = () => {
-        if (!sliderRef.current) return;
-        const { scrollLeft, scrollWidth } = sliderRef.current;
-        const singleSetWidth = scrollWidth / 3;
+        if (scrollRef.current) {
+            const { scrollLeft, scrollWidth } = scrollRef.current;
+            const setWidth = scrollWidth / 3;
 
-        if (scrollLeft < singleSetWidth * 0.5) {
-            sliderRef.current.scrollLeft = scrollLeft + singleSetWidth;
-        } else if (scrollLeft > singleSetWidth * 1.5) {
-            sliderRef.current.scrollLeft = scrollLeft - singleSetWidth;
+            if (scrollLeft <= 0) {
+                scrollRef.current.scrollTo({ left: setWidth, behavior: 'instant' as any });
+            } else if (scrollLeft >= setWidth * 2) {
+                scrollRef.current.scrollTo({ left: setWidth, behavior: 'instant' as any });
+            }
         }
     };
 
-    const scrollSlider = (direction: 'left' | 'right') => {
-        if (sliderRef.current) {
-            const scrollAmount = 310;
-            sliderRef.current.scrollBy({ 
-                left: direction === 'left' ? -scrollAmount : scrollAmount, 
-                behavior: 'smooth' 
-            });
+    const scroll = (direction: 'left' | 'right') => {
+        if (scrollRef.current) {
+            const { scrollLeft } = scrollRef.current;
+            const scrollAmount = 350;
+            const target = direction === 'left' ? scrollLeft - scrollAmount : scrollLeft + scrollAmount;
+            scrollRef.current.scrollTo({ left: target, behavior: 'smooth' });
         }
     };
 
     return (
-    <div className="expertise-wrapper" id="expertise">
-        <div className="skills-container">
-            <h1>Habilidades y Conocimientos</h1>
-            <div className="slider-outer-container">
-                <button className="slider-btn left" onClick={() => scrollSlider('left')}>
-                    <FontAwesomeIcon icon={faChevronLeft} />
-                </button>
-                <div className="skills-slider" ref={sliderRef} onScroll={handleScroll}>
-                    {displaySkills.map((skill, index) => (
-                        <div key={index} className="skill-card">
-                            <FontAwesomeIcon icon={skill.icon} size="3x"/>
-                            <h3>{skill.title}</h3>
-                            <p>{skill.description}</p>
-                            <div className="flex-chips">
-                                {skill.labels.map((label, lIndex) => (
-                                    <Chip key={lIndex} className='chip' label={label} />
-                                ))}
+        <div className="container" id="expertise">
+            <div className="skills-container">
+                <h1>Habilidades y Conocimientos</h1>
+                <div className="carousel-wrapper">
+                    <button className="scroll-button left" onClick={() => scroll('left')}>
+                        <FontAwesomeIcon icon={faChevronLeft} />
+                    </button>
+                    
+                    <div className="skills-carousel" ref={scrollRef} onScroll={handleScroll}>
+                        {infiniteSkills.map((skill, index) => (
+                            <div key={index} className="skill-card">
+                                <FontAwesomeIcon icon={skill.icon} size="3x" className="skill-icon" />
+                                <h3>{skill.title}</h3>
+                                <p>{skill.description}</p>
+                                <div className="flex-chips">
+                                    {skill.labels.map((label, lIndex) => (
+                                        <Chip key={lIndex} className='chip' label={label} />
+                                    ))}
+                                </div>
                             </div>
-                        </div>
-                    ))}
+                        ))}
+                    </div>
+
+                    <button className="scroll-button right" onClick={() => scroll('right')}>
+                        <FontAwesomeIcon icon={faChevronRight} />
+                    </button>
                 </div>
-                <button className="slider-btn right" onClick={() => scrollSlider('right')}>
-                    <FontAwesomeIcon icon={faChevronRight} />
-                </button>
             </div>
         </div>
-    </div>
     );
 }
 

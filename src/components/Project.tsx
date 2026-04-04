@@ -1,4 +1,6 @@
 import React from "react";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faGamepad, faHandPointer } from '@fortawesome/free-solid-svg-icons';
 // @ts-ignore
 import '../assets/styles/Project.scss';
 
@@ -8,24 +10,26 @@ function Project() {
             <h1>Proyectos Personales</h1>
             <div className="projects-grid">
                 
-                <div className="project">
-                    <a href="https://github.com/MarioSantaCruz" target="_blank" rel="noreferrer">
-                        <img src="https://via.placeholder.com/600x400" className="zoom" alt="Seguimiento de manos con Python" width="100%" />
-                    </a>
-                    <a href="https://github.com/MarioSantaCruz" target="_blank" rel="noreferrer">
+                {/* Proyecto 1 */}
+                <div className="project-card">
+                    <div className="project-image-wrapper placeholder-bg">
+                        <FontAwesomeIcon icon={faHandPointer} size="3x" className="placeholder-icon" />
+                    </div>
+                    <div className="project-info">
                         <h2>Sistema de Seguimiento de Manos (Hand Tracking)</h2>
-                    </a>
-                    <p>Desarrollo de un programa de visión computacional utilizando Python, MediaPipe y OpenCV. Aún en desarrollo.</p>
+                        <p>Desarrollo de un programa de visión computacional utilizando Python, MediaPipe y OpenCV. Aún en desarrollo.</p>
+                    </div>
                 </div>
 
-                <div className="project">
-                    <a href="https://github.com/MarioSantaCruz" target="_blank" rel="noreferrer">
-                        <img src="https://via.placeholder.com/600x400" className="zoom" alt="Desarrollo de videojuego en Godot" width="100%" />
-                    </a>
-                    <a href="https://github.com/MarioSantaCruz" target="_blank" rel="noreferrer">
+                {/* Proyecto 2 */}
+                <div className="project-card">
+                    <div className="project-image-wrapper placeholder-bg">
+                        <FontAwesomeIcon icon={faGamepad} size="3x" className="placeholder-icon" />
+                    </div>
+                    <div className="project-info">
                         <h2>Videojuego 2D</h2>
-                    </a>
-                    <p>Creación de un videojuego utilizando el motor Godot. En desarrollo.</p>
+                        <p>Creación de un videojuego utilizando el motor Godot. En desarrollo.</p>
+                    </div>
                 </div>
 
             </div>

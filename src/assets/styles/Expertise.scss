@@ -1,43 +1,31 @@
-.expertise-wrapper {
-    width: 100%;
-    overflow: hidden;
-    position: relative;
-}
-
 .skills-container {
-    padding: 50px 10%;
+    padding: 80px 10%;
     display: flex;
     flex-direction: column;
-    text-align: left;
-    box-sizing: border-box;
     width: 100%;
+    box-sizing: border-box;
 
     h1 {
-        margin-bottom: 40px;
-    }
-
-    svg {
-        color: white;
-        margin-bottom: 15px;
+        margin-bottom: 50px;
+        font-size: 2.5rem;
+        text-align: left;
     }
 }
 
-.slider-outer-container {
+.carousel-wrapper {
     position: relative;
     width: 100%;
     display: flex;
     align-items: center;
 }
 
-.skills-slider {
+.skills-carousel {
     display: flex;
+    gap: 30px;
     overflow-x: auto;
-    gap: 20px;
-    padding: 20px 0;
-    width: 100%;
+    padding: 20px 0 40px;
+    /* Eliminamos scroll-behavior: smooth de aquí para permitir el salto instantáneo */
     scrollbar-width: none;
-    -ms-overflow-style: none;
-    user-select: none;
     
     &::-webkit-scrollbar {
         display: none;
@@ -45,100 +33,109 @@
 }
 
 .skill-card {
-    min-width: 290px;
-    max-width: 290px;
-    flex: 0 0 auto;
     background: rgba(255, 255, 255, 0.03);
-    padding: 25px;
-    border-radius: 12px;
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    transition: transform 0.3s ease, background 0.3s ease, border-color 0.3s ease;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 24px;
+    padding: 40px 30px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    text-align: left;
+    
+    width: 320px;
+    min-width: 320px;
+    height: 450px; 
+    flex-shrink: 0;
+    box-sizing: border-box;
+
+    transition: all 0.4s ease;
 
     &:hover {
-        transform: translateY(-5px);
-        background: rgba(255, 255, 255, 0.07);
+        background: rgba(255, 255, 255, 0.06);
         border-color: #5000ca;
-    }
+        transform: translateY(-10px);
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
 
-    h3 {
-        margin-bottom: 10px;
-        font-size: 1.2rem;
-    }
-
-    p {
-        font-size: 0.85rem;
-        line-height: 1.5;
-        color: #b0b0b0;
-        margin-bottom: 15px;
-        height: 4.5em;
-        overflow: hidden;
+        .skill-icon {
+            color: #5000ca;
+            transform: scale(1.1);
+        }
     }
 }
 
-.slider-btn {
+.scroll-button {
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
-    background: #5000ca;
-    color: white;
-    border: none;
     width: 45px;
     height: 45px;
     border-radius: 50%;
+    background: #5000ca;
+    color: white;
+    border: none;
     cursor: pointer;
     z-index: 10;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
     display: flex;
-    align-items: center;
     justify-content: center;
-    padding: 0;
-
-    svg {
-        margin: 0;
-        font-size: 1rem;
-        color: white;
-    }
+    align-items: center;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(80, 0, 202, 0.4);
 
     &:hover {
-        background: #6211e2;
+        background: #6a1bdb;
+        transform: translateY(-50%) scale(1.1);
     }
 
     &.left {
-        left: -22.5px;
+        left: -25px;
     }
 
     &.right {
-        right: -22.5px;
+        right: -25px;
     }
 }
 
-.chip {
-    color: rgb(39, 40, 34) !important;
-    background-color: white !important;
-    font-size: 0.65rem !important;
-    height: 20px !important;
-    margin-bottom: 4px;
+.skill-icon {
+    color: rgba(255, 255, 255, 0.4);
+    margin-bottom: 25px;
+    transition: all 0.3s ease;
+}
 
-    span {
-        font-family: 'Courier Prime', monospace;
-    }
+h3 {
+    font-size: 1.4rem;
+    color: white;
+    margin-bottom: 20px;
+    min-height: 3.4rem;
+}
+
+p {
+    font-size: 0.95rem;
+    color: #b0b0b0;
+    line-height: 1.6;
+    margin-bottom: auto;
 }
 
 .flex-chips {
-    line-height: 1.6;
-    margin-top: 10px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 25px;
 }
 
-@media (max-width: 768px) {
-    .skills-container {
-        padding: 50px 5%;
-    }
+.chip {
+    background-color: rgba(80, 0, 202, 0.1) !important;
+    border: 1px solid rgba(80, 0, 202, 0.3) !important;
+    color: #fff !important;
+    font-size: 0.75rem !important;
+    height: 26px !important;
+}
 
-    .slider-btn {
+@media (max-width: 900px) {
+    .scroll-button {
         display: none;
     }
-
-    .skill-card {
-        min-width: 260px;
+    
+    .skills-container {
+        padding: 60px 5%;
     }
 }
